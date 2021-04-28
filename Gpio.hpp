@@ -16,25 +16,48 @@ class GPIO
 		void Clear(int port , int pin);
 };
 void GPIO::Clear(int port , int pin)
-{
-	switch(port)
+{if(direction == 0)
 	{
+		switch(port)
+		{
 		case 0 :
-			LPC_GPIO0->FIOCLR |= 1 << pin; 
+			LPC_GPIO0->FIODIR &= direction << pin; 
 		break;
 		case 1 :
-			LPC_GPIO1->FIOCLR |= 1 << pin; 
+			LPC_GPIO1->FIODIR &= direction << pin; 
 		break;
 		case 2 :
-			LPC_GPIO2->FIOCLR |= 1 << pin; 
+			LPC_GPIO2->FIODIR &= direction << pin; 
 		break;
 		case 3 :
-			LPC_GPIO3->FIOCLR |= 1 << pin; 
+			LPC_GPIO3->FIODIR &= direction << pin; 
 		break;
 		case 4 :
-			LPC_GPIO4->FIOCLR |= 1 << pin; 
+			LPC_GPIO4->FIODIR &= direction << pin; 
 		break;
-	}		
+		}
+	}
+	else
+		{
+		switch(port)
+		{
+		case 0 :
+			LPC_GPIO0->FIODIR |= direction << pin; 
+		break;
+		case 1 :
+			LPC_GPIO1->FIODIR |= direction << pin; 
+		break;
+		case 2 :
+			LPC_GPIO2->FIODIR |= direction << pin; 
+		break;
+		case 3 :
+			LPC_GPIO3->FIODIR |= direction << pin; 
+		break;
+		case 4 :
+			LPC_GPIO4->FIODIR |= direction << pin; 
+		break;
+		}
+		}
 }
 
 void GPIO::Set(int port , int pin)
