@@ -6,6 +6,7 @@ GPIO gpio;
 
 void WinkerLEDTest()
 {
+	gpio.InitialIterrupt(2,11,RisingEdage);
 	gpio.Initial(2, 11, GPIO_Input);
 	while(true)
 	{
@@ -21,6 +22,7 @@ void WinkerLEDTest()
 }
 void WinkerLEDTest2()
 {
+	gpio.InitialIterrupt(2,11,RisingEdage);
 	gpio.Initial(2, 11, GPIO_Input);
 	while(true)
 	{
@@ -31,7 +33,6 @@ int main()
 {
 	SystemInit(); // Set Frequency
 	  //WinkerLEDTest();
-	gpio.InitialIterrupt(2,11,RisingEdage);
 	WinkerLEDTest2();
 	return 0;
 }
