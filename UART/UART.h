@@ -1,5 +1,6 @@
 #ifndef UART_H
 #define UART_H
+#include "LPC17xx.h"                    // Device header
 
 enum WordLength
 {
@@ -21,6 +22,7 @@ enum ParityType
 	ForceZero,   // 11
 	NoneParity
 };
+
 class UART
 {
 	public :
@@ -28,6 +30,7 @@ class UART
 		void Send(int uartNum , char data);
 		char Receive(int uartNum);
 	private:
+		LPC_UART_TypeDef ** LPC_UART;
 		void SetBaudRate(int uartNum, int Baudrate);
 };
 #endif
