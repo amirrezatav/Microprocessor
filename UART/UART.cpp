@@ -13,10 +13,10 @@ void UART::Initial(int uartNum , int buadRate , WordLength wordLength , StopBit 
 			break;
 			case 2: 		
 				LPC_SC->PCONP |= 1 << 24 ; // Turn On Uart 2 
-			                        // 0b11<<20
+			                              // 0b11<<20
 				LPC_PINCON->PINSEL0 &= !(0x300000); // reset P0,10
 				LPC_PINCON->PINSEL0 |= (1<<20); // set P0,10 = TXD2
-			                      // 0b11<<22	
+			                              // 0b11<<22	
 				LPC_PINCON->PINSEL0 &= !(0xc00000); // reset P0,11
 				LPC_PINCON->PINSEL0 |= (1<<22); // set P0,11 = RXD2
 			break;
