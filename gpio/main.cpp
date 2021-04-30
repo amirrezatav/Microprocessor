@@ -29,7 +29,7 @@ void WinkerLEDTest2()
 }
 int main()
 {
-	SystemInit(); // Set fekans
+	SystemInit(); // Set Frequency
 	  //WinkerLEDTest();
 	gpio.InitialIterrupt(2,11,RisingEdage);
 	WinkerLEDTest2();
