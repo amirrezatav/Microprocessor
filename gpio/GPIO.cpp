@@ -1,77 +1,21 @@
-#include "lpc17xx.h"
 #include "GPIO.h"
 #include "WinkerLED.h"
-
 void GPIO::Clear(int port , int pin)
 {
-	switch(port)
-	{
-		case 0 :
-			LPC_GPIO0->FIOCLR |= 1 << pin; 
-		break;
-		case 1 :
-			LPC_GPIO1->FIOCLR |= 1 << pin; 
-		break;
-		case 2 :
-			LPC_GPIO2->FIOCLR |= 1 << pin; 
-		break;
-		case 3 :
-			LPC_GPIO3->FIOCLR |= 1 << pin; 
-		break;
-		case 4 :
-			LPC_GPIO4->FIOCLR |= 1 << pin; 
-		break;
-	}		
+	LPC_GPIO[port]->FIOCLR |= 1 << pin; 
 }
-
 void GPIO::Set(int port , int pin)
 {
-	switch(port)
-	{
-		case 0 :
-			LPC_GPIO0->FIOSET |= 1 << pin; 
-		break;
-		case 1 :
-			LPC_GPIO1->FIOSET |= 1 << pin; 
-		break;
-		case 2 :
-			LPC_GPIO2->FIOSET |= 1 << pin; 
-		break;
-		case 3 :
-			LPC_GPIO3->FIOSET |= 1 << pin; 
-		break;
-		case 4 :
-			LPC_GPIO4->FIOSET |= 1 << pin; 
-		break;
-	}		
+	LPC_GPIO[port]->FIOSET |= 1 << pin; 	
 }
 void GPIO::Initial(int port ,int pin  , GPIODirection direction )
 {
-		switch(port)
-		{
-		case 0 :
-			LPC_GPIO0->FIODIR &= ~(1 << pin); 
-			LPC_GPIO0->FIODIR |= (direction << pin);  
-		break;
-		case 1 :
-			LPC_GPIO1->FIODIR &= ~(1 << pin); 
-			LPC_GPIO0->FIODIR |= (direction << pin);  
-
-		break;
-		case 2 :
-			LPC_GPIO2->FIODIR &= ~(1 << pin); 
-			LPC_GPIO0->FIODIR |= (direction << pin);
-		break;
-		case 3 :
-			LPC_GPIO3->FIODIR &= ~(1 << pin);
-			LPC_GPIO0->FIODIR |= (direction << pin);		
-		break;
-		case 4 :
-			LPC_GPIO4->FIODIR &= ~(1 << pin); 
-			LPC_GPIO0->FIODIR |= (direction << pin);
-		break;
-		}
-	
+		// Initial LPC_GPIO Array 
+		LPC_GPIO_TypeDef * lpc_GPIO [] = {LPC_GPIO0 , LPC_GPIO1 , LPC_GPIO2 , LPC_GPIO3 , LPC_GPIO4} ;
+		LPC_GPIO = lpc_GPIO;
+		
+		LPC_GPIO[port]->FIODIR &= ~(1 << pin); 
+		LPC_GPIO[port]->FIODIR |= (direction << pin);  
 }
 
 void GPIO::InitialIterrupt(int port , int pin , SignalEdge edage)
@@ -82,32 +26,21 @@ void GPIO::InitialIterrupt(int port , int pin , SignalEdge edage)
 		{
 		case 0 :
 			if(edage == RisingEdage)
-			LPC_GPIOINT->IO0IntEnR |= 1 << pin;
-		else
-			LPC_GPIOINT->IO0IntEnF |= 1 << pin;
+				LPC_GPIOINT->IO0IntEnR |= 1 << pin;
+			else
+				LPC_GPIOINT->IO0IntEnF |= 1 << pin;
 		break;
 		case 2 :
 			if(edage == RisingEdage)
-			LPC_GPIOINT->IO2IntEnR |= 1 << pin;
-		else
-			LPC_GPIOINT->IO2IntEnF |= 1 << pin; 
+				LPC_GPIOINT->IO2IntEnR |= 1 << pin;
+			else
+				LPC_GPIOINT->IO2IntEnF |= 1 << pin; 
 		break;
 		}
-		
 }
-
-
 bool GPIO::Get(int port , int pin)
 {
-	switch(port)
-  {
-		case 0 : return 	LPC_GPIO0->FIOPIN & (1 << pin);
-		case 1 : return 	LPC_GPIO1->FIOPIN & (1 << pin);
-		case 2 : return 	LPC_GPIO2->FIOPIN & (1 << pin);
-		case 3 : return 	LPC_GPIO3->FIOPIN & (1 << pin);
-		case 4 : return 	LPC_GPIO4->FIOPIN & (1 << pin);
-		default: return false;
-	}
+	return LPC_GPIO[port]->FIOPIN & (1 << pin);
 }
 bool GPIO::GetInterruptStatus(int port , int pin , SignalEdge edage)
 {
@@ -148,4 +81,3 @@ void EINT3_IRQHandler()
 	winker.IterruptHandler();
 }
 }
-
