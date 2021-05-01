@@ -1,7 +1,6 @@
 #ifndef GPIO_H
 #define GPIO_H
-
-
+#include "LPC17xx.h"                    // Device header
 
 enum GPIODirection
 {
@@ -17,6 +16,8 @@ enum SignalEdge
 
 class GPIO
 {
+	private:
+		LPC_GPIO_TypeDef** LPC_GPIO;
 	public:
 		void InitialIterrupt(int port , int pin , SignalEdge edage);
 		void Initial(int port ,int pin , GPIODirection direction );
@@ -24,8 +25,6 @@ class GPIO
 		void Clear(int port , int pin);
 		bool Get(int port , int pin);
 		bool GetInterruptStatus(int port , int pin , SignalEdge edage);
-		void ClearInterrupt(int port , int pin);
-
-		
+		void ClearInterrupt(int port , int pin);		
 };
 #endif
